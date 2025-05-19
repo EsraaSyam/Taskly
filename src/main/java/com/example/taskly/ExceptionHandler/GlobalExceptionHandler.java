@@ -1,6 +1,8 @@
 package com.example.taskly.config;
 
+import com.example.taskly.task.exception.TaskNotFoundException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -14,6 +16,11 @@ import java.util.*;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(TaskNotFoundException.class)
+    public ResponseEntity<Object> handleTaskNotFoundException(TaskNotFoundException ex) {
+        return buildErrorResponse(HttpStatus.NOT_FOUND, List.of(ex.getMessage()));
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleValidationErrors(MethodArgumentNotValidException ex) {
         List<String> errors = ex.getBindingResult()
@@ -21,7 +28,15 @@ public class GlobalExceptionHandler {
                 .stream()
                 .map(error -> error.getDefaultMessage())
                 .toList();
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, errors);
+    }
 
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex) {
+        List<String> errors = ex.getConstraintViolations()
+                .stream()
+                .map(violation -> violation.getMessage())
+                .toList();
         return buildErrorResponse(HttpStatus.BAD_REQUEST, errors);
     }
 
