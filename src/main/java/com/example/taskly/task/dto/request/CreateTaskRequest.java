@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TaskRequestDTO {
+public class CreateTaskRequest {
     @NotBlank(message = "Title is required")
     @Size(max = 60, message = "Title must be less than 100 characters")
     private String title;

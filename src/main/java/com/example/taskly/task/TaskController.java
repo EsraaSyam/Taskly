@@ -1,7 +1,8 @@
 package com.example.taskly.task;
 
 
-import com.example.taskly.task.dto.request.TaskRequestDTO;
+import com.example.taskly.task.dto.request.CreateTaskRequest;
+import com.example.taskly.task.dto.request.UpdateTaskRequest;
 import com.example.taskly.task.dto.response.TaskResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ public class TaskController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<TaskResponseDTO> createTask(@RequestBody @Valid TaskRequestDTO taskRequestDTO) {
+    public ResponseEntity<TaskResponseDTO> createTask(@RequestBody @Valid CreateTaskRequest taskRequestDTO) {
         TaskResponseDTO response = taskService.createTask(taskRequestDTO);
         return ResponseEntity
                 .created(URI.create("/task/" + response.getId()))
@@ -38,6 +39,12 @@ public class TaskController {
     @GetMapping()
     public ResponseEntity<List<TaskResponseDTO>> getAllTasks() {
         List<TaskResponseDTO> response = taskService.getAllTasks();
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TaskResponseDTO> updateTask(@PathVariable long id, @RequestBody @Valid UpdateTaskRequest taskRequestDTO) {
+        TaskResponseDTO response = taskService.updateTask(id, taskRequestDTO);
         return ResponseEntity.ok(response);
     }
 

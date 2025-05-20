@@ -1,13 +1,12 @@
 package com.example.taskly.task;
 
-import com.example.taskly.task.dto.request.TaskRequestDTO;
+import com.example.taskly.task.dto.request.CreateTaskRequest;
 import com.example.taskly.task.dto.response.TaskResponseDTO;
-import com.example.taskly.task.enums.TaskStatus;
 import org.springframework.stereotype.Component;
 
 @Component
 public class TaskMapper {
-    public TaskEntity taskToEntity(TaskRequestDTO taskRequestDTO) {
+    public TaskEntity taskToEntity(CreateTaskRequest taskRequestDTO) {
         if (taskRequestDTO == null) {
             throw new IllegalArgumentException("TaskRequestDTO cannot be null");
         }
