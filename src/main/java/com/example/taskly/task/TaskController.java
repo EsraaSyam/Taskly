@@ -48,4 +48,16 @@ public class TaskController {
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping("soft-delete/{id}")
+    public ResponseEntity<Void> softDeleteTask(@PathVariable long id) {
+        taskService.softDeleteTask(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> hardDeleteTask(@PathVariable long id) {
+        taskService.hardDeleteTask(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

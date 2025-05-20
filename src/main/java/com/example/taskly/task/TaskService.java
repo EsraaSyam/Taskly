@@ -59,7 +59,14 @@ public class TaskService {
         return taskMapper.entityToResponse(updatedTask);
     }
 
+    public void hardDeleteTask(long id) {
+        TaskEntity taskEntity = this.getTaskEntity(id);
+        taskRepository.delete(taskEntity);
+    }
 
-
-
+    public void softDeleteTask(long id) {
+        TaskEntity taskEntity = this.getTaskEntity(id);
+        taskEntity.setDeleted(true);
+        taskRepository.save(taskEntity);
+    }
 }
