@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
 
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "tasks")
 @Data
 @NoArgsConstructor
+@Where(clause = "is_deleted = false")
 @AllArgsConstructor
 @Builder
 public class TaskEntity {
@@ -30,6 +32,7 @@ public class TaskEntity {
     @Column(name = "status")
     private TaskStatus status = TaskStatus.PENDING;
 
+    @Column(name = "is_deleted")
     private boolean isDeleted = false;
 
     private LocalDateTime createdAt;
@@ -46,4 +49,5 @@ public class TaskEntity {
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
+
 }
