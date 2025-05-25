@@ -17,5 +17,5 @@ public class UpdateTaskRequest {
     private String title;
     @Size(max = 255, message = "Description must be less than 255 characters")
     private String description;
-    private TaskStatus status = TaskStatus.PENDING;
+    private TaskStatus status;
 }

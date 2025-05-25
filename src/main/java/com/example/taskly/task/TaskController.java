@@ -22,11 +22,10 @@ public class TaskController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<TaskResponseDTO> createTask(@RequestBody @Valid CreateTaskRequest taskRequestDTO) {
         TaskResponseDTO response = taskService.createTask(taskRequestDTO);
         return ResponseEntity
-                .created(URI.create("/task/" + response.getId()))
+                .status(HttpStatus.CREATED)
                 .body(response);
     }
 
@@ -48,7 +47,7 @@ public class TaskController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("soft-delete/{id}")
+    @DeleteMapping("/{id}/soft-delete")
     public ResponseEntity<Void> softDeleteTask(@PathVariable long id) {
         taskService.softDeleteTask(id);
         return ResponseEntity.noContent().build();
