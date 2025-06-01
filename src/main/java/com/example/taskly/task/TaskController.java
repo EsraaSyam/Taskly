@@ -2,6 +2,7 @@ package com.example.taskly.task;
 
 
 import com.example.taskly.task.dto.request.CreateTaskRequest;
+import com.example.taskly.task.dto.request.SearchTaskRequest;
 import com.example.taskly.task.dto.request.UpdateTaskRequest;
 import com.example.taskly.task.dto.response.TaskResponseDTO;
 import jakarta.validation.Valid;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/task")
 public class TaskController {
@@ -57,6 +59,12 @@ public class TaskController {
     public ResponseEntity<Void> hardDeleteTask(@PathVariable long id) {
         taskService.hardDeleteTask(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<TaskResponseDTO>> searchTasks(@ModelAttribute SearchTaskRequest searchTaskRequest) {
+        List<TaskResponseDTO> response = taskService.searchTasks(searchTaskRequest);
+        return ResponseEntity.ok(response);
     }
 
 }
