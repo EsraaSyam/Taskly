@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Where;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -17,6 +20,7 @@ import java.time.LocalDateTime;
 @Where(clause = "is_deleted = false")
 @AllArgsConstructor
 @Builder
+@EntityListeners(AuditingEntityListener.class)
 public class TaskEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,8 +39,10 @@ public class TaskEntity {
     @Column(name = "is_deleted")
     private boolean isDeleted = false;
 
+    @CreatedDate()
     private LocalDateTime createdAt;
 
+    @LastModifiedDate()
     private LocalDateTime updatedAt;
 
 }
